@@ -4,7 +4,6 @@ import com.gabrielveloso.workshopmongodb.domain.User;
 import com.gabrielveloso.workshopmongodb.dto.UserDTO;
 import com.gabrielveloso.workshopmongodb.repositories.UserRepository;
 import com.gabrielveloso.workshopmongodb.services.exceptions.ObjectNotFoundException;
-import com.sun.jdi.ObjectCollectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +33,17 @@ public class UserService {
         if(!(findById(id) == null)) {
             userRepository.deleteById(id);
         }
+    }
+
+    public User update(User obj) {
+        User newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        return userRepository.save(newObj);
+    }
+
+    public void updateData(User newObj, User obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
     }
 
     public User fromDTO(UserDTO userDTO) {
